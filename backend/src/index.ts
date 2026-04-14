@@ -4,8 +4,8 @@ import cookieParser from "cookie-parser";
 import { HTTPSTATUS } from "./config/http.config";
 import cors from "cors";
 import { Env } from "./config/env.config";
-import { env } from "process";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
+import { asyncHandler } from "./middlewares/asyncHandler.middleware";
 
 const app = express();
 
@@ -21,11 +21,16 @@ app.use(
   }),
 );
 
-app.get("/health", (req: Request, res: Response) => {
-  res
-    .status(HTTPSTATUS.OK)
-    .json({ message: "Server is healthy", status: "OK" });
-});
+app.get(
+  "/health",
+  asyncHandler(async (req: Request, res: Response) => {
+    try {
+      res
+        .status(HTTPSTATUS.OK)
+        .json({ message: "Server is healthy", status: "OK" });
+    } catch (error) {}
+  }),
+);
 
 app.use(errorHandler);
 
