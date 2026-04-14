@@ -5,6 +5,7 @@ import { HTTPSTATUS } from "./config/http.config";
 import cors from "cors";
 import { Env } from "./config/env.config";
 import { env } from "process";
+import { errorHandler } from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.get("/health", (req: Request, res: Response) => {
     .status(HTTPSTATUS.OK)
     .json({ message: "Server is healthy", status: "OK" });
 });
+
+app.use(errorHandler);
 
 app.listen(Env.PORT, async () => {
   console.log(`Server is running on port ${Env.PORT} in ${Env.NODE_ENV} mode`);
