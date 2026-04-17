@@ -7,8 +7,8 @@ export const Env = {
   BASE_URL: getEnv("BASE_URL", "http://localhost:8000"),
   MONGO_URI: getEnv("MONGO_URI", "XYZ"),
   FRONTEND_ORIGIN: getEnv("FRONTEND_ORIGIN", "http://localhost:5173"),
-  BETTER_AUTH_SECRET: getEnv("BETTER_AUTH_SECRECT"),
-  BETTER_AUTH_URL: getEnv("BETTER_AUTH_UTL"),
+  BETTER_AUTH_SECRET: getEnv("BETTER_AUTH_SECRET"),
+  BETTER_AUTH_URL: getEnv("BETTER_AUTH_URL", "http://localhost:8000"),
   GOOGLE_CLIENT_ID: getEnv("GOOGLE_CLIENT_ID"),
   GOOGLE_CLIENT_SECRET: getEnv("GOOGLE_CLIENT_SECRET"),
 };

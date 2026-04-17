@@ -7,12 +7,10 @@ import { Env } from "./config/env.config";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { asyncHandler } from "./middlewares/asyncHandler.middleware";
 import { connectDatabase } from "./config/database.config";
+import { toNodeHandler } from "better-auth/node";
+import { getAuth } from "./lib/auth";
 
 const app = express();
-
-app.use(express.json({ limit: "10mb" }));
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
@@ -21,6 +19,15 @@ app.use(
     credentials: true,
   }),
 );
+
+app.all("/api/auth/*splat", (req, res) => {
+  const auth = getAuth();
+  return toNodeHandler(auth)(req, res);
+});
+
+app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.get(
   "/health",

@@ -3,6 +3,8 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import mongoose from "mongoose";
 import { Env } from "../config/env.config";
 import { compareValue, hashValue } from "../utils/bcrypt";
+import { openAPI } from "better-auth/plugins";
+import { jwt } from "better-auth/plugins";
 
 export const getAuth = () => {
   if (!mongoose.connection.db) {
@@ -30,5 +32,20 @@ export const getAuth = () => {
         clientSecret: Env.GOOGLE_CLIENT_SECRET,
       },
     },
+    advanced: {
+      database: {
+        generateId: false,
+      },
+      cookiePrefix: "printify-ai",
+      cookies: {
+        session_token: {
+          name: "printify_session_token",
+          attributes: {
+            // Set custom cookie attributes
+          },
+        },
+      },
+    },
+    plugins: [openAPI(), jwt()],
   });
 };
